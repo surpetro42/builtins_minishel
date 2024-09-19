@@ -6,87 +6,101 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:26:22 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/18 18:02:52 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:14:56 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header/headershell.h"
+#include <stdio.h>
 
-int	ft_strlen(const char *s)
+int key_strlen(char *s)
 {
-	int	i = 0;
-	while (s[i])
+	int i = 0;
+
+	while (s && s[i] > 32)
 		i++;
 	return i;
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_strdup(char *s1)
 {
-	size_t		i;
-	char		*destination;
-	const char	*source;	
+	size_t	i;
+	size_t	x;
+	char	*m;
 
 	i = 0;
-	destination = (char *)dst;
-	source = (const char *)src;
-	if (!dst && !src)
-		return (	NULL);
-	while (i < n)
+	x = key_strlen(s1);
+	m = (char *)malloc(x + 1);
+	if (m == NULL)
+		return (NULL);
+	while (i < x)
 	{
-		destination[i] = source[i];
+		m[i] = s1[i];
+		++i;
+	}
+	if (i == x)
+		m[i] = '\0';
+	return (m);
+}
+
+int	access_directory(char *s)
+{
+	printf("%s\n", s);
+	if (access(s, R_OK | X_OK) == 0)
+		return (1);
+	else
+		return (0);
+}
+
+int		ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+	{
 		i++;
 	}
-	return (dst);
+	return (s1[i] - s2[i]);
 }
 
-char	*ft_strjoin(const char *str1, const char *str2)
+char *home(t_duplicate_env *env)
 {
-	size_t	len1;
-	size_t	len2;
-	char	*result;
-
-	if (str1 == NULL)
-		return (NULL);
-	len1 = ft_strlen(str1);
-	len2 = ft_strlen(str2);
-	result = malloc(len1 + len2 + 1);
-	if (result == NULL)
-		return (NULL);
-	ft_memcpy(result, str1, len1);
-	ft_memcpy(result + len1, str2, len2 + 1);
-	return (result);
+		// printf("---------------******\n");
+	printf("ehhhhhh\n");
+	while (env)
+	{
+		// printf("---------------%d\n", ft_strcmp(env->key, "HOME"));
+		if(ft_strcmp(env->key, "HOME") > 0)
+			return env->key;
+		env = env->next;
+	}
+	return (NULL);
 }
 
-void search_fole(char *s)
+void	search_fole(t_duplicate_env *env, char *s)
 {
 	int i = 0;
+	int fd;
 	char cwd[PATH_MAX];
-	char *key;
+	char *str;
 	
-	if(getcwd(cwd, PATH_MAX) == NULL)
-		return ;
-	int fd = open(&s[0] , O_RDONLY);
-	printf("%s\n", &s[0]);
-	if (fd < 0)
+	if(getcwd(cwd, PASS_MAX) == NULL)
+		return;
+	str = ft_strdup(s);
+
+	if(str[0] == '~')
 	{
-		printf("sxala buhahahaha");
-		exit(1);
+		if (home(env) == NULL)
+			exit(0);
 	}
- 	if (chdir(&s[0]) == -1)
-	{
-        perror("chdir() error");
-        return ;
-    }
-	if (getcwd(cwd, PATH_MAX) != NULL) 
+	if (access_directory(str) == 0)
+		perror("ERROR DOSTUPCHKA");
+	if(getcwd(cwd, PASS_MAX) != NULL)
 		printf("%s\n", cwd);
-	else if (chdir(".") == -1)
-	{
-        perror("chdir() error");
-        return ;
-    }
 }
 
-void validation_cd(char **str)
+void validation_cd(t_duplicate_env *env, char **str)
 {
 	int i = 1;
 	int l = 0;
@@ -99,11 +113,10 @@ void validation_cd(char **str)
 			if (str[i][l] == 'c' && str[i][l + 1] == 'd' && str[i][l + 2] == ' ')
 			{
 				l += 3;
-				search_fole(&str[i][l]);
+				search_fole(env, &str[i][l]);
 			}
 			else if (str[i][l] == 'c' && str[i][l + 1] == 'd' && str[i][l + 2] > 32)
 				printf("command not found\n");
-			
 			l++;
 		}
 		i++;
@@ -112,6 +125,7 @@ void validation_cd(char **str)
 
 int main(int argc, char **argv)
 {
-	validation_cd(argv);
+	t_duplicate_env *env;
+	validation_cd(env, argv);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:49:03 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/14 20:35:01 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:18:57 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdbool.h>
 # include <signal.h>
 # include <fcntl.h>
 # include <dirent.h>
