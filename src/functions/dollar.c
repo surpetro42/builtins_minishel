@@ -6,11 +6,12 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:44:26 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/19 22:12:26 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:49:18 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 int	find(char *s)
 {
@@ -36,11 +37,18 @@ int	len_afterdollar(char *s)
 
 void	search_key(t_duplicate_env *duplicate_env, char *s)
 {
+	int i = 0;
+
 	while (duplicate_env->next)
 	{
 		if(ft_strstr(s, duplicate_env->key))
 		{
-			printf("________ %s\n", duplicate_env->vlue);
+			while (duplicate_env->value[i])
+			{
+				write(1, &duplicate_env->value[i], 1);
+				i++;
+			}
+			write(1, "\n", 1);
 		}
 		duplicate_env = duplicate_env->next;
 	}
@@ -79,7 +87,7 @@ int	dollar(t_shell *shell, char **env)
 		int findEl = find(env[i]);
 		iter->next = malloc(sizeof(t_duplicate_env));
 		iter->next->key = ft_substr(env[i], 0, findEl);
-		iter->next->vlue = ft_substr(env[i], findEl + 1, ft_strlen(env[i]));
+		iter->next->value = ft_substr(env[i], findEl + 1, ft_strlen(env[i]));
 		iter = iter->next;
 		i++;
 	}

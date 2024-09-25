@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/23 17:38:51 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/25 20:54:58 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 # include <sys/wait.h>
 # include <limits.h>
 # include <errno.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define STRING 0
 # define PIPE 1 // |
@@ -37,7 +39,7 @@
 typedef struct s_duplicate_env
 {
 	char					*key;
-	char					*vlue;
+	char					*value;
 	struct s_duplicate_env	*next;
 } t_duplicate_env;
 
@@ -55,7 +57,7 @@ void	ft_execve(t_shell *shell, char **env);
 void	ctrl_d(t_shell *utils);
 int		dollar(t_shell *shell, char **env);
 void	cd(t_shell *shell);
-void	echo(t_shell *shell);
+void echo(t_shell *shell, char **env);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);

@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:03:36 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/23 17:38:36 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:43:05 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int main(int argc, char **argv, char **env)
 		add_history(shell->input);
 		ctrl_d(shell);
 		pwd(shell);
-		echo(shell);
+		// printf("USER %s\n", shell->input);
+		echo(shell, env);
 		dollar(shell, env);
 		cd(shell);
 		// ft_execve(shell, env);
