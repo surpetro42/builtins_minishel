@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/25 20:54:58 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:32:33 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,18 @@ typedef struct s_shell
 void	pwd(t_shell *shell);
 void	ft_execve(t_shell *shell, char **env);
 void	ctrl_d(t_shell *utils);
-int		dollar(t_shell *shell, char **env);
+void	dollar(t_shell *shell);
 void	cd(t_shell *shell);
-void echo(t_shell *shell, char **env);
+void	echo(t_shell *shell, char **env);
+void	env_print(t_shell *shell);
+
+/* ------------------------ functions_utils ------------------------ */
+void	duplicate_env(t_shell *shell, char **env);
+void	changes_old_env(t_duplicate_env **env, char *cwd);
+void	changes_env(t_duplicate_env **env, char *cwd);
+int		access_directory(char *s);
+char	*home(t_duplicate_env *env);
+int		check_directory(char *s);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);

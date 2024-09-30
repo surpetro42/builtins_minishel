@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:03:36 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/25 21:43:05 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:59:15 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,18 @@ int main(int argc, char **argv, char **env)
 	shell = malloc(sizeof(t_shell));
 	shell->duplicate_env = NULL;
 	i = 0;
+
+	duplicate_env(shell, env);
 	while (1)
 	{
 		shell->input = readline("\033[38;5;43mminishell: \033[0;000m");
 		add_history(shell->input);
 		ctrl_d(shell);
 		pwd(shell);
-		// printf("USER %s\n", shell->input);
 		echo(shell, env);
-		dollar(shell, env);
+		dollar(shell);
 		cd(shell);
+		env_print(shell);
 		// ft_execve(shell, env);
 	}
 	return 0;

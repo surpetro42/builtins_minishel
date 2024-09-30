@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:37:10 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/25 21:39:02 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/25 22:17:44 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ void echo(t_shell *shell, char **env)
 			i++;
 		if(shell->input[i] == 32)
 			i++;
-		if(shell->input[i] == '$')
-		{
-			dollar(shell, env);
-			if(shell->input[i] == '$')
-				while (shell->input[i] > 32)
-					i++;
-		}
 		if(shell->input[i] == '-' && shell->input[i + 1] == 'n')
 		{
 			buff = i;
