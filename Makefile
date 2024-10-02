@@ -24,6 +24,7 @@ SRCS_NAME =		minishell.c \
 				functions/env.c \
 				functions_utils/duplicate_env.c \
 				functions_utils/cd_utils.c \
+				jamanakavor/jamanakavor.c \
 				utils/utils.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
@@ -38,6 +39,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/utils
 	@mkdir -p $(OBJS_DIR)/functions
+	@mkdir -p $(OBJS_DIR)/jamanakavor
 	@mkdir -p $(OBJS_DIR)/functions_utils
 	$(CC) $(CFLAGS) -c $< -o $@ 
 

@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/27 15:32:33 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:56:43 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,32 @@ typedef struct s_shell
 	t_duplicate_env	*duplicate_env;
 } t_shell;
 
+typedef struct utils_s3
+{
+	//Suren part
+	char **env;
+	struct s_shell *shell;
+
+	//Aram part
+	int		new_word;
+	int		in_block;
+	char	*i_string;
+	char	*hd_eof;
+	int		hd_mode;
+	
+} utils_t;
+
+
 /* ------------------------ functions ------------------------ */
-void	pwd(t_shell *shell);
+void	pwd(utils_t *utils);
 void	ft_execve(t_shell *shell, char **env);
 void	ctrl_d(t_shell *utils);
-void	dollar(t_shell *shell);
-void	cd(t_shell *shell);
-void	echo(t_shell *shell, char **env);
+void	dollar(char *str, utils_t *utils);
+// void	dollar(t_shell *shell);
+int		cd(char *str, utils_t *utils);
+// void	cd(t_shell *shell);
+void	echo(char **argv, utils_t *utils);
+// void	echo(t_shell *shell, char **env);
 void	env_print(t_shell *shell);
 
 /* ------------------------ functions_utils ------------------------ */
@@ -74,5 +93,13 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strstr(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1);
+
+/* ------------------------ jamankavor ------------------------ */
+char	**ft_split(char const *s, char c);
+int		ft_strcmp_space(char *s1, char *s2);
+
+
+
+// void	pwd(utils_t *utils);
 
 #endif

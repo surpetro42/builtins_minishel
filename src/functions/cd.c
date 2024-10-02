@@ -6,19 +6,26 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:26:22 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/30 15:54:36 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/02 23:15:12 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	search_fole(t_duplicate_env *env, char *s)
+
+
+// dzelu ban ka 
+
+
+
+
+int	search_fole(t_duplicate_env *env, char *s)
 {
 	char cwd[PATH_MAX];
 	char *str;
 
 	if (getcwd(cwd, PASS_MAX) == NULL)
-		return;
+		return 0;
 	str = ft_strdup(s);
 	if (str[0] == '~' || str[0] < 32)
 	{
@@ -28,49 +35,51 @@ void	search_fole(t_duplicate_env *env, char *s)
 		chdir(home(env));
 		getcwd(cwd, PATH_MAX);
 		changes_env(&env, cwd);
-		return ;
+		return 1;
 	}
 	else if(str[0] > 32)
 	{
 		if (check_directory(str) == 0)
-			return ;
+			return 0;
 		if (access_directory(str) == 0)
 		{
 			printf("minishell: %s: ", s);
 			printf("Permission denied\n");
-			return;
+			return 0;
 		}
 		changes_old_env(&env, cwd);
 		chdir(str);
 		getcwd(cwd, PATH_MAX);
 		changes_env(&env, cwd);
-		return;
+		return 1;
 	}
+	return 0;
 }
 
-void	cd(t_shell *shell)
+int		cd(char *str, utils_t *utils)
 {
 	int i = 0;
 	int buff = 0;
+	int res = 0;
 
-
-	while (shell->input[i])
+	while (str[i])
 	{
-		if (shell->input[i] == 'c' && shell->input[i + 1] == 'd' && shell->input[i + 2] == ' ')
+		if (str[i] == 'c' && str[i + 1] == 'd' && str[i + 2] == ' ')
 		{
 			buff = i;
 			buff += 3;
-			search_fole(shell->duplicate_env, &shell->input[buff]);
+			res = search_fole(utils->shell->duplicate_env, &str[buff]);
 		}
-		else if (shell->input[i] == 'c' && shell->input[i + 1] == 'd' && shell->input[i + 1] <= 32)
+		else if (str[i] == 'c' && str[i + 1] == 'd' && str[i + 2] <=  32)
 		{
-			home(shell->duplicate_env);
-			if (home(shell->duplicate_env) == NULL)
+			home(utils->shell->duplicate_env);
+			if (home(utils->shell->duplicate_env) == NULL)
 				exit(0);
-			chdir(home(shell->duplicate_env));
+			res = chdir(home(utils->shell->duplicate_env));
 		}
-		else if (shell->input[i] == 'c' && shell->input[i + 1] == 'd' && shell->input[i + 2] > 32)
+		else if (str[i] == 'c' && str[i + 1] == 'd' && str[i + 2] > 32)
 			printf("command not found\n");
 		i++;
 	}
+	return res;
 }

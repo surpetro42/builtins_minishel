@@ -6,68 +6,78 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:37:10 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/25 22:17:44 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:46:57 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void echo(t_shell *shell, char **env)
-{
-	(void)env;
-	int i = 0;
-	int buff = 0;
-	int buff1 = 0;
 
-	if(ft_strstr(shell->input, "echo") != NULL)
+/* ~~~~~~~~~~~ uxxelu ban unem mejy  bayc verjum ed ~~~~~~~~~~~ */
+
+
+void	echo_quotation(char *str)
+{
+	int i = 0;
+	if(str[i] == '"' && str[i] == '\'')
 	{
-		while(shell->input[i] > 32)
-			i++;
-		if(shell->input[i] == 32)
-			i++;
-		if(shell->input[i] == '-' && shell->input[i + 1] == 'n')
+		while (str[i] != '"' && str[i] != '\'')
 		{
-			buff = i;
+			printf("%c", str[i]);
 			i++;
-			buff1 = i;
-			while (shell->input[buff1] == 'n')
-				buff1++;
-			if (shell->input[buff1] == ' ')
+		}
+	}
+}
+
+void	echo(char **argv, utils_t *utils)
+{
+	(void)utils;
+	int i;
+	int l;
+	int buff;
+
+	i = 1;
+	buff = 0;
+	if (argv[1])
+	{
+		l = 0;
+		if (argv[1][0] == '-' && argv[1][1] == 'n')
+		{
+			l++;
+			buff = l;
+			while (argv[i][buff] == 'n')
+				buff++;
+			if(argv[i][buff]  > 32 && argv[i][buff] != 'n')
 			{
-				i = buff1;
-				while (shell->input[i] > 32)
-					i++;
-				if(shell->input[i] == ' ')
-						i++;
-				while (shell->input[i])
+				l = buff;
+				while (argv[i])
 				{
-					write(1, &shell->input[i], 1);
+					if (argv[i + 1] != NULL)
+						printf("%s ", argv[i]);
+					else
+						printf("%s\n", argv[i]);
 					i++;
 				}
 			}
 			else
 			{
-				i = buff;
-				if(shell->input[i] == ' ')
-						i++;
-				while (shell->input[i])
+				while (argv[++i])
 				{
-					write(1, &shell->input[i], 1);
-					i++;
+					if (argv[i + 1] != NULL)
+						printf("%s ", argv[i]);
+					else
+						printf("%s", argv[i]);
 				}
-				write(1, "\n", 1);
 			}
 		}
 		else
+		while (argv[i])
 		{
-			if(shell->input[i] == ' ')
-					i++;
-			while (shell->input[i])
-			{
-				write(1, &shell->input[i], 1);
-				i++;
-			}
-			write(1, "\n", 1);
+			if (argv[i + 1] != NULL)
+				printf("%s ", argv[i]);
+			else
+				printf("%s\n", argv[i]);
+			i++;
 		}
 	}
 }

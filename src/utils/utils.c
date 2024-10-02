@@ -6,11 +6,12 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:28:58 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/22 22:37:06 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/09/30 23:36:32 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 int	ft_strlen(const char *s)
 {

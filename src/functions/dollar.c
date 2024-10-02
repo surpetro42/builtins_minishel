@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:44:26 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/27 15:35:04 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/02 23:44:29 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,17 @@ void	search_key(t_duplicate_env *duplicate_env, char *s)
 	}
 }
 
-void	dollar(t_shell *shell)
+
+void	dollar(char *str, utils_t *utils)
 {
 	int i = 0;
 	int l = 0;
 	
-	while (shell->input[i])
+	while (str[i])
 	{
 		l = 0;
-		if(shell->input[i] == '$')
-			search_key(shell->duplicate_env ,&shell->input[i]);
+		if(str[i] == '$')
+			search_key(utils->shell->duplicate_env ,&str[i]);
 		i++;
 	}
 }
