@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:37:10 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/01 21:46:57 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:50:42 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	echo(char **argv, utils_t *utils)
 			buff = l;
 			while (argv[i][buff] == 'n')
 				buff++;
-			if(argv[i][buff]  > 32 && argv[i][buff] != 'n')
+			if(argv[i][buff] > 32 && argv[i][buff] != 'n')
 			{
 				l = buff;
 				while (argv[i])

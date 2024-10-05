@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 23:06:39 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/03 00:10:27 by surpetro         ###   ########.fr       */
+/*   Created: 2024/09/27 15:13:15 by surpetro          #+#    #+#             */
+/*   Updated: 2024/10/04 20:25:14 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	env_print(utils_t *utils)
+size_t	ft_strlen_first_word(char *s)
 {
-	t_duplicate_env	*start;
-	
-	start = utils->shell->duplicate_env;
-	while(utils->shell->duplicate_env)
+	int	i;
+
+	i = 0;
+	while (s && s[i] > 32)
+		i++;
+	return i;
+}
+
+char	*ft_strdup_first_word(char *s1)
+{
+	size_t	i;
+	size_t	x;
+	char	*m;
+
+	i = 0;
+	x = ft_strlen_first_word(s1);
+	m = (char *)malloc(x + 1);
+	if (m == NULL)
+		return (NULL);
+	while (i < x)
 	{
-		printf("%s=", utils->shell->duplicate_env->key);
-		printf("%s\n", utils->shell->duplicate_env->value);	
-		utils->shell->duplicate_env = utils->shell->duplicate_env->next;
+		m[i] = s1[i];
+		++i;
 	}
-	utils->shell->duplicate_env = start;
+	if (i == x)
+		m[i] = '\0';
+	return (m);
 }

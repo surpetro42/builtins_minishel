@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/01 21:56:43 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:19:15 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_duplicate_env
 
 typedef struct s_shell
 {
-	char			*input;
 	char			**str;
 	t_duplicate_env	*duplicate_env;
 } t_shell;
@@ -70,14 +69,11 @@ typedef struct utils_s3
 /* ------------------------ functions ------------------------ */
 void	pwd(utils_t *utils);
 void	ft_execve(t_shell *shell, char **env);
-void	ctrl_d(t_shell *utils);
-void	dollar(char *str, utils_t *utils);
-// void	dollar(t_shell *shell);
+void	ctrl_d(char *str, utils_t *utils);
+char	*dollar(char *str, utils_t *utils);
 int		cd(char *str, utils_t *utils);
-// void	cd(t_shell *shell);
 void	echo(char **argv, utils_t *utils);
-// void	echo(t_shell *shell, char **env);
-void	env_print(t_shell *shell);
+void	env_print(utils_t *utils);
 
 /* ------------------------ functions_utils ------------------------ */
 void	duplicate_env(t_shell *shell, char **env);
@@ -86,6 +82,7 @@ void	changes_env(t_duplicate_env **env, char *cwd);
 int		access_directory(char *s);
 char	*home(t_duplicate_env *env);
 int		check_directory(char *s);
+char	*ft_strdup_first_word(char *s1);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);
@@ -100,6 +97,5 @@ int		ft_strcmp_space(char *s1, char *s2);
 
 
 
-// void	pwd(utils_t *utils);
 
 #endif

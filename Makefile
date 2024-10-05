@@ -24,6 +24,7 @@ SRCS_NAME =		minishell.c \
 				functions/env.c \
 				functions_utils/duplicate_env.c \
 				functions_utils/cd_utils.c \
+				functions_utils/dollar.c \
 				jamanakavor/jamanakavor.c \
 				utils/utils.c
 

@@ -6,12 +6,11 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:28:58 by surpetro          #+#    #+#             */
-/*   Updated: 2024/09/30 23:36:32 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:18:37 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
 
 int	ft_strlen(const char *s)
 {
@@ -57,9 +56,8 @@ char	*ft_strstr(char *s1, char *s2)
 
 	if (!*s2)
 		return ((char *)s1);
-
 	i = 0;
-	while (s1[i] > 32)
+	while (s1[i] != '\0')
 	{
 		j = 0;
 		while (s1[i + j] == s2[j] && s2[j] != '\0')
@@ -73,13 +71,11 @@ char	*ft_strstr(char *s1, char *s2)
 
 int		ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-	{
 		i++;
-	}
 	return (s1[i] - s2[i]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:03:36 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/01 22:19:50 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:53:05 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main(int argc, char **argv, char **env)
 
 	utils_t	*utils;
 	char	*str;
+	char	*doll;
 	char	**str_split;
 	int		i;
 	int		cd_res;
@@ -37,18 +38,23 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		str = readline("\033[38;5;43mminishell: \033[0;000m");
+		ctrl_d(str, utils);
 		add_history(str);
 		if (ft_strcmp(str, "pwd") == 0)
 			pwd(utils);
-
 		if (ft_strcmp_space(str, "echo") == 0)
 		{
 			str_split = ft_split(str, ' ');
 			echo(str_split , utils);
 		}
-		dollar(str, utils);
+		if (str[0] == '$')
+		{
+			doll = dollar(str, utils);
+			printf("%s\n", doll);
+		}
 		cd_res = cd(str, utils);
-		// env_print(shell);
+		if (ft_strcmp(str, "env") == 0)
+			env_print(utils);
 		// ft_execve(shell, env);
 	}
 	return 0;
