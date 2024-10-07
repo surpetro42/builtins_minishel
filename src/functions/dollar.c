@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:44:26 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/05 21:52:02 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:47:24 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*search_key(t_duplicate_env *duplicate_env, char *s)
 	char *str;
 	int i = 0;
 
-	if(s[i] >= '0' && s[i] <= '9')
-		i++;
+	if (s[i] >= '0' && s[i] <= '9')
+		return &s[++i];
 	while (duplicate_env->next)
 	{
 		if (ft_strcmp(&s[i], duplicate_env->key) == 0)
@@ -76,25 +76,25 @@ char	*dollar(char *str, utils_t *utils)
 	char	*key;
 	char	*res;
 	int		valid_res;
-	int		is_var = 0;
+	int		is_var;
 
 	res = NULL;
 	while (str[i])
 	{
-		if(str[i] == '$')
+		if (str[i] == '$')
 		{
 			i++;
 			key = ft_strdup_first_word(&str[i]);
 			valid_res = dollar_validation(key);
-			printf("valid_res %d\n", valid_res);
 			is_var = is_variable(key, utils->shell->duplicate_env);
-			printf("is_var %d\n", is_var);
-			if(is_var == 0)
-				break;
+			if (is_var == 0)
+				break ;
 			if (valid_res == 1)
 				res = search_key(utils->shell->duplicate_env ,key);
 		}
 		i++;
 	}
+	if (res != NULL)
+		printf("%s\n", res);
 	return res;
 }
