@@ -6,27 +6,117 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:44:26 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/07 20:47:24 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:24:27 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int is_variable(char *s, t_duplicate_env *duplicate_env)
+char	*ft_strndup(char *s1)
 {
-	int i;
+	int		i;
+	int		x;
+	char	*m;
 
 	i = 0;
-	
-	if(s[i] >= '0' && s[i] <= '9')
-		i++;
-	while (duplicate_env->next)
+	x = 0;
+	while (s1[x])
 	{
-		if (ft_strcmp(&s[i], duplicate_env->key) == 0) 
-			return 1;
-		duplicate_env = duplicate_env->next;
+		if(s1[x] == '$')
+			break;
+		x++;
 	}
-	return 0;
+	i = 0;
+	m = (char *)malloc(x + 1);
+	if (m == NULL)
+		return (NULL);
+	while (i < x)
+	{
+		m[i] = s1[i];
+		++i;
+	}
+	if (i == x)
+		m[i] = '\0';
+	return (m);
+}
+
+
+char	*before_dollar(char *str)
+{
+	int i = 0;
+	int l = 0;
+	char *s;
+	while (str && str[i] && str[i] != '$')
+		i++;
+	s = malloc(sizeof(char *) * i + 1);
+	if (!s)
+		return NULL;
+	while (str[l] && str[l] != '$')
+	{
+		s[l] = str[l];
+		l++;
+	}
+	if(l == i)
+		s[l] = '\0';
+	return s;
+}
+
+char	*key(char *str)
+{
+	int i = 0;
+	int l = 0;
+	int x = 0;
+	char	*s;
+
+	while (str[l] && str[l])
+		l++;
+	while (l > 0 && str[l] != '$')
+		l--;
+	while (str[l] && str[l] > 32)
+		l++;
+	while (str[i] && str[i] != '$')
+		i++;
+	x = l - i;
+	s = malloc(sizeof(char *) * x + 1);
+	while (i < l)
+	{
+		s[i] = str[i];
+		i++;
+	}
+	if(i == l)
+		s[i] = '\0';
+	return s;
+}
+
+char	*after(char *str)
+{
+	int i = 0;
+	int l = 0;
+	int after_len = 0;
+	int buff= 0;
+	char *s;
+	
+	while (str && str[i])
+		i++;
+	while (i > 0)
+	{
+		if(str[i] == '$')
+			break;
+		i--;
+	}
+	while (str && str[i] > 32)
+		i++;
+	buff = i;
+	while (str[i++])
+		after_len++;
+	s = malloc(sizeof(char *) * after_len);
+	if (!s)
+		return (NULL);
+	while (str[buff])
+		s[l++] = str[buff++];
+	if(l == after_len)
+		s[l] = '\0';
+	return s;
 }
 
 int	dollar_validation(char *s)
@@ -34,67 +124,135 @@ int	dollar_validation(char *s)
 	int	i;
 
 	i = 0;
-	if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_' )
+	if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+		|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_' )
 	{
 		i++;
 		while (s[i])
 		{
-			if(!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
-				return 0;
+			if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+				|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
+				return (0);
 			i++;
 		}
 	}
 	else
-		return 0;
-	return 1;
+		return (0);
+	return (1);
 }
 
-char	*search_key(t_duplicate_env *duplicate_env, char *s)
-{
-	char *str;
-	int i = 0;
 
-	if (s[i] >= '0' && s[i] <= '9')
-		return &s[++i];
-	while (duplicate_env->next)
+char	*ft_strtrim(const char *s1, const char *set)
+{
+	size_t	x;
+	size_t	y;
+	char	*m;
+
+	x = 0;
+	y = 0;
+	if (s1 == NULL)
+		return (NULL);
+	while (s1[x] && ft_strchr(set, s1[x]) != NULL)
+		++x;
+	y = ft_strlen(s1);
+	while (y > x && ft_strchr(set, s1[y - 1]) != NULL)
+		--y;
+	m = ft_substr(s1, x, y - x);
+	return (m);
+}
+
+
+char	*open_dollar(char *key, t_duplicate_env *duplicate_env)
+{
+	int		i;
+	int		value_len;
+	char	*res_buff;
+	char	*res_line = NULL;
+	char	*buff;
+	t_duplicate_env *start = duplicate_env;
+
+	i = 0;
+	while (key[i])
 	{
-		if (ft_strcmp(&s[i], duplicate_env->key) == 0)
+		value_len = 0;
+		if(key[i] == '$')
 		{
-			str = ft_strdup(duplicate_env->value);
-			return (str);
+			i++;
+			buff = ft_strndup(&key[i]);
+			buff = ft_strtrim(buff, " ");
+			while (duplicate_env)
+			{
+				if (ft_strcmp(buff, duplicate_env->key) == 0)
+				{
+					value_len = ft_strlen(duplicate_env->value);
+					res_buff = malloc(sizeof(char *) * value_len);
+					if (!res_buff)
+						return NULL;
+					res_buff = ft_strdup(duplicate_env->value); 
+				}
+				duplicate_env = duplicate_env->next;
+			}
+			duplicate_env = start->next;
+			res_line = ft_strjoin(res_line, res_buff);
+			res_line = ft_strjoin(res_line, " ");
+			if (res_buff == NULL)
+				free(res_buff);
 		}
-		else if (ft_strcmp(&s[i], "$") == 0)
-			return (s);
-		duplicate_env = duplicate_env->next;
+		i++;
 	}
-	return NULL;
+	return res_line;
 }
 
 char	*dollar(char *str, utils_t *utils)
 {
+	(void)utils;
 	int		i = 0;
-	char	*key;
-	char	*res;
-	int		valid_res;
-	int		is_var;
+	int		count = 0;
+	char	*s1_before = NULL;
+	char	*s2_key = NULL;
+	char	*s3_after = NULL;
+	char	*res_line_key = NULL;
+	char	*res_1 = NULL;
+	char	*resultant = NULL;
 
-	res = NULL;
-	while (str[i])
+	while (str[i] <= 32)
+		i++;
+	if (str)
 	{
+		while (str[i])
+		{
+			if (str[i] == '$')
+				count++;
+			i++;
+		}
 		if (str[i] == '$')
 		{
-			i++;
-			key = ft_strdup_first_word(&str[i]);
-			valid_res = dollar_validation(key);
-			is_var = is_variable(key, utils->shell->duplicate_env);
-			if (is_var == 0)
-				break ;
-			if (valid_res == 1)
-				res = search_key(utils->shell->duplicate_env ,key);
+			s2_key = key(str);
+			s3_after = after(str);
 		}
-		i++;
+		if (count > 0 && str[i] != '$')
+		{
+			s1_before = before_dollar(str);
+			s2_key = key(str);
+			s3_after = after(str);
+		}
+		else
+		{
+			s1_before = before_dollar(str);
+			return s1_before;
+		}	
 	}
-	if (res != NULL)
-		printf("%s\n", res);
-	return res;
+	res_line_key = open_dollar(s2_key, utils->shell->duplicate_env);
+	
+	res_1 = ft_strjoin(s1_before, res_line_key);
+	resultant = ft_strjoin(res_1, s3_after);
+	printf("%s\n", resultant);
+
+	return resultant;
 }
+
+
+// char	*determinant(char *s)
+// {
+	
+// }

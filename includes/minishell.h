@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:15 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:52:17 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int		access_directory(char *s);
 char	*home(t_duplicate_env *env);
 int		check_directory(char *s);
 char	*ft_strdup_first_word(char *s1);
+void	export_f(utils_t *utils);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);
@@ -90,6 +91,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strstr(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
 
 /* ------------------------ jamankavor ------------------------ */
 char	**ft_split(char const *s, char c);
