@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:28:58 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/10 21:52:03 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:51:33 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,23 @@ char	*ft_strchr(const char *s, int c)
 	if (!c)
 		return ((char *)&s[i]);
 	return (NULL);
+}
+
+char	*ft_strtrim(const char *s1, const char *set)
+{
+	size_t	x;
+	size_t	y;
+	char	*m;
+
+	x = 0;
+	y = 0;
+	if (s1 == NULL)
+		return (NULL);
+	while (s1[x] && ft_strchr(set, s1[x]) != NULL)
+		++x;
+	y = ft_strlen(s1);
+	while (y > x && ft_strchr(set, s1[y - 1]) != NULL)
+		--y;
+	m = ft_substr(s1, x, y - x);
+	return (m);
 }

@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/10 21:52:17 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:52:02 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ void	changes_env(t_duplicate_env **env, char *cwd);
 int		access_directory(char *s);
 char	*home(t_duplicate_env *env);
 int		check_directory(char *s);
-char	*ft_strdup_first_word(char *s1);
 void	export_f(utils_t *utils);
+char	*ft_strndup(char *s1);
+char	*ft_strtrim(const char *s1, const char *set);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);
