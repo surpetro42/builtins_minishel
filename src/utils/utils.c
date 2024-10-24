@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:28:58 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/11 15:51:33 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:25:01 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,3 +164,4 @@ char	*ft_strtrim(const char *s1, const char *set)
 	m = ft_substr(s1, x, y - x);
 	return (m);
 }
+

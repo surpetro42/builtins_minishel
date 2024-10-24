@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:37:10 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/01 00:32:35 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/24 01:08:53 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,26 @@ int		ft_strcmp_space(char *s1, char *s2)
 
 static int	count_words(char const *s, char x)
 {
+	int i = 0;
 	int	count;
 
 	count = 0;
-	while (*s)
+	while (s[i])
 	{
-		if (*s != x)
+		if(s[i] == '"')
+		{
+			i++;
+			while (s[i] && s[i] != '"')
+				i++;
+		}
+		if (s[i] != x)
 		{
 			count++;
-			while (*s && *s != x)
-				s++;
+			while (s[i] && s[i] != x)
+				i++;
 		}
 		else
-			++s;
+			++i;
 	}
 	return (count);
 }
@@ -62,10 +69,29 @@ char	**ft_split(char const *s, char c)
 	while (++i < res_count)
 	{
 		while (*s == c)
-			s++;
-		p_s = s;
+		{
+			if(*s == '"')
+			{
+				s++;
+				while (*s && *s != '"')
+					s++;
+			}
+			if(*s)
+				s++;
+		}
+		if(s)
+			p_s = s;
 		while (*s && *s != c)
-			s++;
+		{
+			if(*s == '"')
+			{
+				s++;
+				while (*s && *s != '"')
+					s++;
+			}
+			if(*s)
+				s++;
+		}
 		str[i] = ft_substr(p_s, 0, s - p_s);
 		if (!str[i] && ft_split(*str, i))
 			return (NULL);

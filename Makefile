@@ -21,6 +21,7 @@ SRCS_NAME =		minishell.c \
 				functions/pwd.c \
 				functions/ft_execve.c \
 				functions/echo.c \
+				functions/export.c \
 				functions/env.c \
 				functions_utils/duplicate_env.c \
 				functions_utils/cd_utils.c \

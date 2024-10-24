@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:13:15 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/11 16:11:22 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:10:46 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strndup(char *s1)
 	x = 0;
 	if(s1[i] == '$')
 		i++;
-	while (s1[x])
+	while (s1[x] > 32)
 	{
 		if(s1[x] == '$')
 			break;
