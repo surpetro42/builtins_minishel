@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 22:19:45 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/24 23:03:57 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/26 23:35:01 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,43 @@
 
 // _________________________________________________________________________________________________________
 
-int	find_space(char *s)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == '"')
-			count++;
-		i++;
-	}
-	return (count);
-}
-
 void	input_export(t_shell *shell, char **str)
 {
-	t_input_export	*iter;
-	t_input_export	start;
+	t_duplicate_env	*start;
+	t_duplicate_env	*last;
+	t_duplicate_env	*new_node;
 	int				i;
 	int				findEl;
  
 	i = 0;
- 	iter = &start;
+	start = shell->duplicate_env;
+
+	last = shell->duplicate_env;
+	while (last && last->next)
+		last = last->next;
+
 	while (str[i])
 	{
 		findEl = find(str[i]);
-		if(findEl == -1)
-			break;
-		iter->next = malloc(sizeof(t_input_export));
-		iter->next->key = ft_substr(str[i], 0, findEl);
+		if (findEl == -1)
+			break ;
+		new_node = (t_duplicate_env *)malloc(sizeof(t_duplicate_env));
+		if (!new_node)
+			return ;
+		new_node->key = ft_substr(str[i], 0, findEl);
 		if (find_space(str[i]) == 2)
-			iter->next->value = ft_substr(str[i], findEl + 1, ft_strlen(str[i]));
+			new_node->value = ft_substr(str[i], findEl + 1, ft_strlen(str[i]));
 		else
-			iter->next->value = NULL;
-		iter = iter->next;
+			new_node->value = NULL;
+		new_node->next = NULL;
+		if (last)
+			last->next = new_node;
+		else
+			start = new_node;
+		last = new_node;
 		i++;
 	}
-	iter->next = NULL;
-	shell->input_export = start.next;
+	shell->duplicate_env = start;
 }
 // _________________________________________________________________________________________________________
 
@@ -73,18 +69,16 @@ int	validation_variable(char *s)
 		i++;
 	}
 	i = 0;
-	if(count > 0)
+	if (count > 0)
 	{
 		if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
 				|| s[i] == '_' )
 		{
-			i++;
-			while (s[i])
+			while (s[++i])
 			{
 				if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
 					|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
 					return (0);
-				i++;
 			}
 		}
 		else
@@ -95,44 +89,39 @@ int	validation_variable(char *s)
 	return (1);
 }
 
-// void	validation_str(char **)
-// {
-	
-// }
-
 void	add_enviorment(t_shell *shell)
 {
-	while (shell->duplicate_env)
-		shell->duplicate_env = shell->duplicate_env->next;
+	t_duplicate_env	*start;
 
-	while (shell->input_export)
+	start = shell->duplicate_env;
+	while (shell->duplicate_env)
 	{
-		printf("shell->input_export->key == %s\n", shell->input_export->key);
-		printf("shell->input_export->value == %s\n", shell->input_export->value);
-		shell->input_export = shell->input_export->next;
+		printf("%s=", shell->duplicate_env->key);
+		printf("%s\n", shell->duplicate_env->value);
+		shell->duplicate_env = shell->duplicate_env->next;
 	}
+	shell->duplicate_env = start;
 }
 
 void	export_f(utils_t *utils, char *s)
 {
 	t_duplicate_env	*env;
-	t_input_export	*start;
+	t_duplicate_env	*start;
 	char			**str;
 
 	env = utils->shell->duplicate_env;
 	str = ft_split(s, ' ');
 	input_export(utils->shell, str);
-	start = utils->shell->input_export;
-	while (utils->shell->input_export)
+	start = utils->shell->duplicate_env;
+	while (utils->shell->duplicate_env)
 	{
-		if (validation_variable(utils->shell->input_export->key) == 0)
+		if (validation_variable(utils->shell->duplicate_env->key) == 0)
 		{
-			utils->shell->input_export->key = NULL;
-			utils->shell->input_export->value = NULL;
+			utils->shell->duplicate_env->key = NULL;
+			utils->shell->duplicate_env->value = NULL;
 		}
-		validation_variable(utils->shell->input_export->key);
-		utils->shell->input_export = utils->shell->input_export->next;
+		utils->shell->duplicate_env = utils->shell->duplicate_env->next;
 	}
-	utils->shell->input_export = start;
+	utils->shell->duplicate_env = start;
 	add_enviorment(utils->shell);
 }

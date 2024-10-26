@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/24 14:25:08 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:58:02 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		check_directory(char *s);
 char	*ft_strndup(char *s1);
 char	*ft_strtrim(const char *s1, const char *set);
 int		find(char *s);
+int		find_space(char *s);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);
