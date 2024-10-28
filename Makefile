@@ -22,6 +22,7 @@ SRCS_NAME =		minishell.c \
 				functions/ft_execve.c \
 				functions/echo.c \
 				functions/export.c \
+				functions/unset.c \
 				functions/env.c \
 				functions_utils/duplicate_env.c \
 				functions_utils/export_utils.c \

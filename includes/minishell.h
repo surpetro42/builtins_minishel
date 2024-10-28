@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/25 21:58:02 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:53:39 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		cd(char *str, utils_t *utils);
 void	echo(char **argv, utils_t *utils);
 void	env_print(utils_t *utils);
 void	export_f(utils_t *utils, char *s);
+void	unset_f(utils_t *utils, char *str);
 
 /* ------------------------ functions_utils ------------------------ */
 void	duplicate_env(t_shell *shell, char **env);
