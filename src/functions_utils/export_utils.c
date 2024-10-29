@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:57:25 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/28 17:12:57 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:46:26 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char **spit_cycle(int res_count, char const *s, char c, char **str)
 				s++;
 		}
 		str[i] = ft_substr(p_s, 0, s - p_s);
-		if (!str[i] && ft_split(*str, i))
+		if (!str[i] && ft_split_export(*str, i))
 			return (NULL);
 	}
 	str[i] = NULL;
@@ -98,7 +98,7 @@ char **spit_cycle(int res_count, char const *s, char c, char **str)
 
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_export(char const *s, char c)
 {
 	int			res_count;
 	char		**str;

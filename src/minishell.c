@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:03:36 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/28 17:52:20 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:46:55 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int main(int argc, char **argv, char **env)
 		// 	pwd(utils);
 		// if(str[i] == 'c' && str[i + 1] == 'd')
 		// 	cd_res = cd(str, utils);
-		// if (ft_strcmp(str, "env") == 0)
-		// 	env_print(utils);
+		if (ft_strcmp(str, "env") == 0)
+			env_print(utils);
 		// export_f(utils, str);
 		unset_f(utils, str);
 		// if (ft_strcmp(str, "unset") == 0)

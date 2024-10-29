@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 22:19:45 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/28 16:18:23 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:46:34 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	export_f(utils_t *utils, char *s)
 	char			**str;
 
 	env = utils->shell->duplicate_env;
-	str = ft_split(s, ' ');
+	str = ft_split_export(s, ' ');
 	if(!str)
 	{
 		free(str);

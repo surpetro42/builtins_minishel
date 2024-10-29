@@ -6,7 +6,7 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:51:52 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/28 17:53:39 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:48:18 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ char	*ft_strndup(char *s1);
 char	*ft_strtrim(const char *s1, const char *set);
 int		find(char *s);
 int		find_space(char *s);
+char	**ft_split_export(char const *s, char c);
+char	**ft_split(char const *s, char c);
 
 /* ------------------------ utils ------------------------ */
 int		ft_strlen(const char *s);
@@ -100,7 +102,6 @@ char	*ft_strchr(const char *s, int c);
 
 
 /* ------------------------ jamankavor ------------------------ */
-char	**ft_split(char const *s, char c);
 int		ft_strcmp_space(char *s1, char *s2);
 
 

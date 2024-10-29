@@ -6,35 +6,37 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 22:20:10 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/28 22:48:56 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:49:02 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	delete_node(t_duplicate_env *env, char *str)
+void	delete_node(t_duplicate_env *env, char *s)
 {
-	t_duplicate_env buff;
+	(void)env;
+	t_duplicate_env	*start = NULL;
+	char			**str;
+	int				i;
 	
-	if (ft_strcmp(env->key, str) == 0)
+	i = 0;
+	str = ft_split(s, ' ');
+	start = env;
+	while (str[i])
 	{
-		buff.next = env->next;
-		free(env);
-		env = buff.next;
-	}
-	while (env)
-	{
-		if(env->next->next)
-			buff.next = env->next->next;
-		if (ft_strcmp(env->next->key, str) == 0)
+		while (env)
 		{
-			free(env->next);
-			env = buff.next;
-	printf("^_^\n");
+			if (env->key && ft_strcmp(env->key, str[i]) == 0)
+			{
+				env->key = NULL;
+				env->value = NULL;
+			}
+			env = env->next;
 		}
-		env = env->next;
+		env = start; 
+		i++;
 	}
-}
+} 
 
 void	unset_f(utils_t *utils, char *str)
 {

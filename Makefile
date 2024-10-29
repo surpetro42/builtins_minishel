@@ -28,6 +28,7 @@ SRCS_NAME =		minishell.c \
 				functions_utils/export_utils.c \
 				functions_utils/cd_utils.c \
 				functions_utils/utils_dollar.c \
+				functions_utils/unset_utils.c \
 				jamanakavor/jamanakavor.c \
 				utils/utils.c
 
