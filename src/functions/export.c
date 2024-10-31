@@ -6,13 +6,98 @@
 /*   By: surpetro <surpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 22:19:45 by surpetro          #+#    #+#             */
-/*   Updated: 2024/10/29 16:46:34 by surpetro         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:08:25 by surpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// _________________________________________________________________________________________________________
+// _________________________________________________________________________________________________________
+// _________________________________________________________________________________________________________
 
+// int	ft_env_elem_size(t_env_elem *begin_list)
+// {
+// 	int	count;
+
+// 	count = 0;
+// 	while (begin_list)
+// 	{
+// 		count++;
+// 		begin_list = begin_list->next;
+// 	}
+// 	return (count);
+// }
+
+// t_env_elem	*ft_env_elem_at(t_env_elem *begin_list, unsigned int nbr)
+// {
+// 	unsigned int	i;
+
+// 	i = 0;
+// 	while (i < nbr && begin_list->next)
+// 	{
+// 		begin_list = begin_list->next;
+// 		i++;
+// 	}
+// 	if (i != nbr)
+// 		return (NULL);
+// 	return (begin_list);
+// }
+
+// t_env_elem	*ft_merge_sorted_list(t_env_elem *left, t_env_elem *right,
+// 			int (*cmp)())
+// {
+// 	t_env_elem	dummy;
+// 	t_env_elem	*sorted_list;
+
+// 	sorted_list = &dummy;
+// 	while (left && right)
+// 	{
+// 		if ((*cmp)(left->key, right->key) < 0)
+// 		{
+// 			sorted_list->next = left;
+// 			left = left->next;
+// 		}
+// 		else
+// 		{
+// 			sorted_list->next = right;
+// 			right = right->next;
+// 		}
+// 		sorted_list = sorted_list->next;
+// 	}
+// 	if (left)
+// 		sorted_list->next = left;
+// 	else if (right)
+// 		sorted_list->next = right;
+// 	return (dummy.next);
+// }
+
+// t_env_elem	*merge_sort(t_env_elem *begin_list, int (*cmp)())
+// {
+// 	t_env_elem	*left;
+// 	t_env_elem	*right;
+// 	t_env_elem	*pre_right;
+// 	int			list_size;
+
+// 	list_size = ft_env_elem_size(begin_list);
+// 	if (begin_list == NULL || list_size < 2)
+// 		return (begin_list);
+// 	left = begin_list;
+// 	pre_right = ft_env_elem_at(begin_list, (list_size / 2) - 1);
+// 	right = pre_right->next;
+// 	pre_right->next = NULL;
+// 	left = merge_sort(left, cmp);
+// 	right = merge_sort(right, cmp);
+// 	return (ft_merge_sorted_list(left, right, cmp));
+// }
+
+// void	ft_env_elem_sort(t_env_elem **begin_list, int (*cmp)())
+// {
+// 	*begin_list = merge_sort(*begin_list, cmp);
+// }
+
+// _________________________________________________________________________________________________________
+// _________________________________________________________________________________________________________
 // _________________________________________________________________________________________________________
 
 void	input_export(t_shell *shell, char **str)
@@ -89,19 +174,55 @@ int	validation_variable(char *s)
 	return (1);
 }
 
-void	add_enviorment(t_shell *shell)
+void add_enviorment(t_shell *shell)
 {
-	t_duplicate_env	*start;
+	t_duplicate_env *start;
+	t_input_export *iter;
+	t_input_export start1;
 
 	start = shell->duplicate_env;
+	iter = &start1;
 	while (shell->duplicate_env)
 	{
-		printf("%s=", shell->duplicate_env->key);
-		printf("%s\n", shell->duplicate_env->value);
+		iter->next = malloc(sizeof(t_input_export));
+		iter->key = ft_strdup(shell->duplicate_env->key);
+		iter->value = ft_strdup(shell->duplicate_env->value);
+		iter = iter->next;
 		shell->duplicate_env = shell->duplicate_env->next;
 	}
+	iter->next = NULL;
 	shell->duplicate_env = start;
+	shell->input_export = start1.next;
+	while (shell->input_export)
+	{
+		if(shell->input_export->key != NULL)
+			printf("%s=", shell->input_export->key);
+		else
+			printf("%p=", shell->input_export->key);
+		if(shell->input_export->value != NULL)
+			printf("%s\n", shell->input_export->value);
+		else
+			printf("%p\n", shell->input_export->value);
+		shell->input_export = shell->input_export->next;
+		printf("%p\n", shell->input_export);
+		// printf("%p\n",shell->input_export);
+	}
+
 }
+
+// void	add_enviorment(t_shell *shell)
+// {
+// 	t_duplicate_env	*start;
+
+// 	start = shell->duplicate_env;
+// 	while (shell->duplicate_env)
+// 	{
+// 		printf("%s=", shell->duplicate_env->key);
+// 		printf("%s\n", shell->duplicate_env->value);
+// 		shell->duplicate_env = shell->duplicate_env->next;
+// 	}
+// 	shell->duplicate_env = start;
+// }
 
 void	export_f(utils_t *utils, char *s)
 {
@@ -128,5 +249,6 @@ void	export_f(utils_t *utils, char *s)
 		utils->shell->duplicate_env = utils->shell->duplicate_env->next;
 	}
 	utils->shell->duplicate_env = start;
+	
 	add_enviorment(utils->shell);
 }

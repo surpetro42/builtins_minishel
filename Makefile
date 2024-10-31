@@ -19,7 +19,6 @@ SRCS_NAME =		minishell.c \
 				functions/dollar.c \
 				functions/cd.c \
 				functions/pwd.c \
-				functions/ft_execve.c \
 				functions/echo.c \
 				functions/export.c \
 				functions/unset.c \
